@@ -10,6 +10,24 @@ This fork adapts [Matt Pocock's grill-me / grilling workflow](https://github.com
 
 [Install](#install) · [Usage](#usage) · [Workflow](#workflow) · [Differences](#differences-from-upstream) · [Credits](#credits)
 
+## Differences from upstream
+
+Compared with Matt Pocock's original [grill-me entry point](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) and [grilling procedure](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md):
+
+| Area | Original | This fork |
+| --- | --- | --- |
+| Packaging | `grill-me` delegates to a separate `grilling` skill. | The complete procedure and Codex adaptations live in one portable `SKILL.md`. |
+| Activation | The `grill-me` entry point requires user invocation. | Requests automatic use before implementation; explicit invocation remains available. |
+| Questions | Numbered Markdown rounds with recommended answers. | Interactive choices through `request_user_input` in Codex or `AskUserQuestion` in Claude Code, with consequences for each option. |
+| Context | Looks up environmental facts as questions require them. | Starts with reconnaissance and presents a sourced assumptions ledger before the questions. |
+| Decision scope | Walks the decision tree until every branch is visited. | Puts consequential decisions in the question UI and proposes cosmetic choices for the user to veto. |
+| Plan | Does not require a plan artifact. | Drafts and revises a session plan with scope, decisions, and verification steps; Codex keeps it in the conversation when no scratchpad is named. |
+| Between rounds | Recomputes the decision frontier from the answers. | Also summarizes what changed, distinguishes verified facts from assumptions, and turns remaining risks into questions. |
+| Ending early | Defines completion as an empty decision frontier. | Also supports accept-all and stop phrases, recording unresolved assumptions before proceeding. |
+| Handoff | Waits for the user to confirm shared understanding before acting. | Starts work once decisions are settled, within the authorized scope. Normal permissions still apply to irreversible or external actions. |
+
+The decision tree, dependency-aware rounds, recommended answers, and rule that the agent finds facts itself come from the original. This repository is a GitHub fork of [mattpocock/skills](https://github.com/mattpocock/skills), with the original history preserved.
+
 ## Install
 
 Choose the agent you use. The commands below install the skill for your user account and require Git.
@@ -82,19 +100,6 @@ Normal permission requirements still apply to irreversible or external actions.
 3. **Resolve consequential decisions.** Ask through the host's question UI, with a recommended answer and the consequences of each option. Defer questions until their prerequisites are settled. Keep cosmetic choices out of the interview.
 4. **Update the plan.** Record the answers and remaining assumptions. Explain what changed.
 5. **Start the work.** Once the decisions are resolved, proceed within the authorized scope without a redundant final confirmation.
-
-## Differences from upstream
-
-| Area | This adaptation |
-| --- | --- |
-| Packaging | The full procedure lives in one `SKILL.md`; no companion `grilling` skill is required. |
-| Activation | Requests automatic use before implementation, as well as explicit invocation. |
-| Questions | Uses `request_user_input` in Codex and `AskUserQuestion` in Claude Code, with each host's supported limits. |
-| Assumptions | Adds a sourced ledger and separates consequential decisions from cosmetic choices. |
-| Plan | Keeps decisions and verification steps in a session plan. |
-| Handoff | Starts work after the interview, within the authorized scope. |
-
-The repository is a GitHub fork of [mattpocock/skills](https://github.com/mattpocock/skills). The default branch contains this focused adaptation; the original history is preserved.
 
 ## Update
 
